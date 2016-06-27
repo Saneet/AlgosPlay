@@ -33,6 +33,7 @@ public class HackerRankMrXAndHisShots {
 
         } catch (IOException e) {
             System.out.println("Invalid Input");
+            return 0;
         }
 
     }
