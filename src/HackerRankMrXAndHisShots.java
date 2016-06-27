@@ -29,7 +29,7 @@ public class HackerRankMrXAndHisShots {
                 fielderRanges[i][1] = FastScanner.nextInt();
             }
 
-            System.out.println(HackerRankMrXAndHisShots.solve(shotRanges, fielderRanges));
+            return HackerRankMrXAndHisShots.solve(shotRanges, fielderRanges);
 
         } catch (IOException e) {
             System.out.println("Invalid Input");
