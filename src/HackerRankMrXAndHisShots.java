@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -5,6 +6,36 @@ import java.util.Comparator;
  * Hacker Rank problem - Mr. X and his shots - Time out
  */
 public class HackerRankMrXAndHisShots {
+
+    //Used FastScanner class for reading input quickly
+    public static int fastReadAndSolve() {
+
+        int[][] shotRanges;
+        int[][] fielderRanges;
+
+        try {
+            int count1 = FastScanner.nextInt();
+            int count2 = FastScanner.nextInt();
+
+            shotRanges = new int[count1][2];
+            fielderRanges = new int[count2][2];
+
+            for (int i = 0; i < count1; i++){
+                shotRanges[i][0] = FastScanner.nextInt();
+                shotRanges[i][1] = FastScanner.nextInt();
+            }
+            for (int i = 0; i < count2; i++){
+                fielderRanges[i][0] = FastScanner.nextInt();
+                fielderRanges[i][1] = FastScanner.nextInt();
+            }
+
+            System.out.println(HackerRankMrXAndHisShots.solve(shotRanges, fielderRanges));
+
+        } catch (IOException e) {
+            System.out.println("Invalid Input");
+        }
+
+    }
 
     public static int solve(int[][] shotRanges, int[][] fielderRanges){
         int total = 0;
