@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -6,31 +7,31 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int count1 = sc.nextInt();
-        int count2 = sc.nextInt();
 
-        int[][] shotRanges = new int[count1][2];
-        int[][] fielderRanges = new int[count2][2];
+        try {
 
-        for (int i = 0; i < count1; i++){
-            shotRanges[i][0] = sc.nextInt();
-            shotRanges[i][1] = sc.nextInt();
+            int totalCount = FastScanner.nextInt();
+            long startTime = System.nanoTime();
+
+            for (int i = 0; i < totalCount; i++) {
+                int arrCount = FastScanner.nextInt();
+                int[][] locationPopulation = new int[arrCount][2];
+                for (int j = 0; j < arrCount; j++) {
+                    locationPopulation[j][0] = FastScanner.nextInt();
+                }
+                for (int j = 0; j < arrCount; j++) {
+                    locationPopulation[j][1] = FastScanner.nextInt();
+                }
+                System.out.println(HackerRankDirectConnections.getTotalCableLength(locationPopulation));
+            }
+
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
+
+            System.out.println("Duration:" + duration);
+        } catch (IOException e) {
+            System.out.println("Invalid Input");
         }
-        for (int i = 0; i < count2; i++){
-            fielderRanges[i][0] = sc.nextInt();
-            fielderRanges[i][1] = sc.nextInt();
-        }
-
-        long startTime = System.nanoTime();
-
-        System.out.println("Solution");
-        System.out.println(HackerRankMrXAndHisShots.solve(shotRanges, fielderRanges));
-
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
-
-        System.out.println("Duration:" + duration);
 
 
     }
