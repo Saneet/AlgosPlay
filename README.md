@@ -13,20 +13,18 @@ Scanner class that uses BufferedReader instead of Java scanner for much faster i
 Code: https://github.com/Saneet/AlgosPlay/blob/master/src/FastScanner.java
 
 ### 3. Fenwick Tree
-Implementation of Fenwick Tree using Array
+Implementation of Fenwick Tree using Array.
 Code: https://github.com/Saneet/AlgosPlay/blob/master/src/FenwickTree.java
 
 ### 4. Fenwick Tree for BigInteger
-Implementation of Fenwick Tree using Array of BigIntegers
+Implementation of Fenwick Tree using Array of BigIntegers.
 Code: https://github.com/Saneet/AlgosPlay/blob/master/src/BigFenwickTree.java
 
 ## HackerRank Challenge solutions
 
 ### 1. Direct Connections
 Fully optimized implementation using Fenwick Trees.
-
 Problem: https://www.hackerrank.com/challenges/direct-connections
-
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/HackerRankDirectConnections.java
 
 ### 2. Mr. X and his Shots
@@ -40,12 +38,12 @@ Implemented using 2 passes. Memoization and DP.
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/HackerRankCandyProblem.java
 
 ### 4. Larry's Array
-Solved by counting the number of inversions
+Solved by counting the number of inversions.
 Problem: https://www.hackerrank.com/challenges/larrys-array
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/HackerRankLaryssArray.java
 
 ### 5. Kaprekar Numbers
-Solved for both original and modified Kaprekar numbers
+Solved for both original and modified Kaprekar numbers.
 Problem: https://www.hackerrank.com/challenges/kaprekar-numbers
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/HackerRankKaprekarNumbers.java
 
