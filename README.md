@@ -7,7 +7,7 @@ Playing around with algorithms
 ```
 Fully optimized implementation that checks if number is prime by dividing it with all
 previous prime numbers smaller than its square root.
-Code: https://github.com/Saneet/AlgosPlay/blob/master/src/PrimeNumbers.java
+Code: [https://github.com/Saneet/AlgosPlay/blob/master/src/PrimeNumbers.java](https://github.com/Saneet/AlgosPlay/blob/master/src/PrimeNumbers.java)
 ```
 
 ### 2. Fast Scanner for HackerRank problems
