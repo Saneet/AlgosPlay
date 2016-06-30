@@ -24,13 +24,17 @@ Code: https://github.com/Saneet/AlgosPlay/blob/master/src/BigFenwickTree.java
 
 ### 1. Direct Connections
 Fully optimized implementation using Fenwick Trees.
+
 Problem: https://www.hackerrank.com/challenges/direct-connections
+
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/HackerRankDirectConnections.java
 
 ### 2. Mr. X and his Shots
 Solved and optimized by sorting the lists and then processing a small window of
-comparisons for each shot vs fielder combination
+comparisons for each shot vs fielder combination.
+
 Problem: https://www.hackerrank.com/challenges/x-and-his-shots
+
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/HackerRankMrXAndHisShots.java
 
 ### 3. Teacher Candy Distribution Problem
