@@ -1,8 +1,4 @@
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Scanner;
 
 public class Main {
 
@@ -11,18 +7,29 @@ public class Main {
         try {
 
             int totalCount = FastScanner.nextInt();
+            int k = FastScanner.nextInt();
+
             long startTime = System.nanoTime();
 
-            for (int i = 0; i < totalCount; i++) {
-                int arrCount = FastScanner.nextInt();
-                int[][] locationPopulation = new int[arrCount][2];
-                for (int j = 0; j < arrCount; j++) {
-                    locationPopulation[j][0] = FastScanner.nextInt();
-                }
-                for (int j = 0; j < arrCount; j++) {
-                    locationPopulation[j][1] = FastScanner.nextInt();
-                }
-                System.out.println(HackerRankDirectConnections.getTotalCableLength(locationPopulation));
+            int[] heights = new int[totalCount];
+            for (int i = 0; i < heights.length; i++) {
+                heights[i] = FastScanner.nextInt();
+            }
+
+            int queryCount = FastScanner.nextInt();
+
+            int[][] queries = new int[queryCount][3];
+
+            for (int i = 0; i < queryCount; i++) {
+                queries[i][HackerRankAlmostEqual.RANGE_L] = FastScanner.nextInt();
+                queries[i][HackerRankAlmostEqual.RANGE_R] = FastScanner.nextInt();
+                queries[i][HackerRankAlmostEqual.RANGE_INDEX] = i;
+            }
+
+            long[] results = HackerRankAlmostEqual.getCountsForRanges(heights, k, queries);
+
+            for (int i = 0; i < results.length; i++) {
+                System.out.println(results[i]);
             }
 
             long endTime = System.nanoTime();
