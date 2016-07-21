@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Hacker Rank problem - Kaprekar numbers
  */
-public class HackerRankKaprekarNumbers {
+public class KaprekarNumbers {
 
     public static List<Integer> fetchKaprekarList(int start, int end) {
         List<Integer> result = new ArrayList<Integer>();

@@ -3,7 +3,7 @@ package saneet.algosplay.hackerrank;
 /**
  * HackerRank problem - Encryption
  */
-public class HackerRankEncryption {
+public class EncryptionProblem {
 
     public static String getEncryptedString(String str) {
         int row, column;

@@ -10,7 +10,7 @@ import java.util.Comparator;
 /**
  * HackerRank problem - Direct Connections
  */
-public class HackerRankDirectConnections {
+public class DirectConnections {
 
     public static final int LOCATION = 0;
     public static final int POPULATION = 1;

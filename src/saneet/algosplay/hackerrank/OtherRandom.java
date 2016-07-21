@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * Hacker Rank problem solutions
  */
-public class HackerRandom {
+public class OtherRandom {
 
     //Hacker Rank Sparse Arrays - Solved using Hashmap of subtractions
     public static int[] sparseArrays(String[] strings, String[] queries){

@@ -10,7 +10,7 @@ import saneet.algosplay.utils.*;
  * For this we need all the query ranges at once and cannot print the results incrementally as we will
  * be processing the queries non-sequentially.
  */
-public class HackerRankAlmostEqual {
+public class AlmostEqual {
     private static int MEMO_COUNT = 0;
     private static int MEMO_UPTO = 1;
     public static int RANGE_L = 0;

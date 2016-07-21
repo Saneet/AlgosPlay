@@ -7,7 +7,7 @@ package saneet.algosplay.hackerrank;
  * Dynamic programming is used to divide the problem into pairs of children at once and remembering their
  * states in an array. Same array is used and updated on reverse.
  */
-public class HackerRankCandyProblem {
+public class CandyProblem {
     public static int getMinimumCandyCount(int[] score) {
         //Create array to remember values
         int[] values = new int[score.length];

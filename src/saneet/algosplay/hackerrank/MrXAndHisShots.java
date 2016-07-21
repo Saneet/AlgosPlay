@@ -9,7 +9,7 @@ import java.util.Comparator;
 /**
  * Hacker Rank problem - Mr. X and his shots - Time out
  */
-public class HackerRankMrXAndHisShots {
+public class MrXAndHisShots {
 
     //Used saneet.algosplay.utils.FastScanner class for reading input quickly
     public static int fastReadAndSolve() {
@@ -33,7 +33,7 @@ public class HackerRankMrXAndHisShots {
                 fielderRanges[i][1] = FastScanner.nextInt();
             }
 
-            return HackerRankMrXAndHisShots.solve(shotRanges, fielderRanges);
+            return MrXAndHisShots.solve(shotRanges, fielderRanges);
 
         } catch (IOException e) {
             System.out.println("Invalid Input");

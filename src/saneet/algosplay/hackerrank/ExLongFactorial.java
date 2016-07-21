@@ -5,7 +5,7 @@ import java.math.BigInteger;
 /**
  * Hacker Rank problem - Extra long factorials
  */
-public class HackerRankExLongFactorial {
+public class ExLongFactorial {
     //Uses BigInteger to loop through and calculate factorial of large numbers
     public static String getFactorialString(int num) {
         BigInteger bInt = BigInteger.valueOf(1);

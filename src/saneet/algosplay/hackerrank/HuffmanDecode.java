@@ -3,7 +3,7 @@ package saneet.algosplay.hackerrank;
 /**
  * HackerRank problem Huffman Decode
  */
-public class HackerRankHuffmanDecode {
+public class HuffmanDecode {
 
 
     void decode(String S ,Node root)

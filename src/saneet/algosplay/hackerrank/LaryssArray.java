@@ -3,7 +3,7 @@ package saneet.algosplay.hackerrank;
 /**
  * Hacker Rank problem - Larry's Array
  */
-public class HackerRankLaryssArray {
+public class LaryssArray {
     public static boolean canArrayBySorted(int[] a) {
         int sum = 0;
         //Count the number of inversions or places where the number is before the numbers that are smaller than it
