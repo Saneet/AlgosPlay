@@ -1,4 +1,4 @@
-package saneet.algosplay.saneet.algosplay.misc;
+package saneet.algosplay.misc;
 
 import java.util.HashMap;
 import java.util.HashSet;
