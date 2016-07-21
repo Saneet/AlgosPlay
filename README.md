@@ -24,7 +24,7 @@ Code: https://github.com/Saneet/AlgosPlay/blob/master/src/saneet/algosplay/utils
 ### 1. Almost Equal - Difficulty - Expert
 Implmented using MO's algorithm. Used sorted skip list for managing changes to the current segment.<br />
 Sorting the segment allows for range based checking which decreases complexity even more.<br />
-Alternately if sorted segments are not used then memo can be used to store the matches for all elements which makes removing easy.<br />
+Alternately in place of sorted segments, memo can be used to store the matches for elements which makes removing easy.<br />
 Total running time for a large test case = 625 milliseconds. (If data is read through saneet.algosplay.utils.FastScanner.java) <br />
 Problem: https://www.hackerrank.com/challenges/almost-equal-advanced<br />
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/saneet/algosplay/hackerrank/HackerRankAlmostEqual.java
@@ -72,7 +72,7 @@ Find the page pair with the highest affinity.<br />
 Code: https://github.com/Saneet/AlgosPlay/blob/master/src/saneet/algosplay/misc/PageViewAffinityProblem.java
 
 ### 2. Printing prime numbers
-Fully optimized implementation that checks if number is prime by dividing it with all
+Optimal implementation that checks if prime by dividing it with all
 previous prime numbers smaller than its square root.<br />
 Code: https://github.com/Saneet/AlgosPlay/blob/master/src/saneet/algosplay/misc/PrimeNumbers.java
 
