@@ -1,3 +1,5 @@
+package saneet.algosplay.hackerrank;
+
 /**
  * HackerRank problem Huffman Decode
  */

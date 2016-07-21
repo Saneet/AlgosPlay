@@ -1,3 +1,8 @@
+package saneet.algosplay.hackerrank;
+
+import saneet.algosplay.datastructures.BigFenwickTree;
+import saneet.algosplay.datastructures.FenwickTree;
+
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;

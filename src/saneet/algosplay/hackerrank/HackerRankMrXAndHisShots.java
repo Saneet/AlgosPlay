@@ -1,3 +1,7 @@
+package saneet.algosplay.hackerrank;
+
+import saneet.algosplay.utils.FastScanner;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -7,7 +11,7 @@ import java.util.Comparator;
  */
 public class HackerRankMrXAndHisShots {
 
-    //Used FastScanner class for reading input quickly
+    //Used saneet.algosplay.utils.FastScanner class for reading input quickly
     public static int fastReadAndSolve() {
 
         int[][] shotRanges;

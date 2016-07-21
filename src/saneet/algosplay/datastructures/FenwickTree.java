@@ -1,3 +1,5 @@
+package saneet.algosplay.datastructures;
+
 import java.math.BigInteger;
 
 /**

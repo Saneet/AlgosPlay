@@ -1,3 +1,5 @@
+package saneet.algosplay.hackerrank;
+
 /**
  * HackerRank Candy Problem
  * Solved using two passes one forward pass to assign 1 to every kid and +1 to every better kid.

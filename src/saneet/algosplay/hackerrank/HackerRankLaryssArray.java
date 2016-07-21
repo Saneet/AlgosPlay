@@ -1,3 +1,5 @@
+package saneet.algosplay.hackerrank;
+
 /**
  * Hacker Rank problem - Larry's Array
  */

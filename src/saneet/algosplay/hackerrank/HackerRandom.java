@@ -1,3 +1,7 @@
+package saneet.algosplay.hackerrank;
+
+import saneet.algosplay.utils.FastScanner;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -183,6 +187,47 @@ public class HackerRandom {
                 System.out.println("-1");
             }
 
+
+        }
+    }
+
+
+    public static void sherlockAndTheBeast() {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        for (int a0 = 0; a0 < t; a0++) {
+            int n = in.nextInt();
+            int mod = n % 3;
+            int n3 = 0;
+            int n5 = 0;
+            switch (mod) {
+                case 0: {
+                    n5 = n;
+                    break;
+                }
+                case 1: {
+                    break;
+                }
+                case 2: {
+                    n5 = n - 5;
+                    n3 = 5;
+                    break;
+                }
+                default: {
+                    System.out.print("-1");
+                    System.out.println("");
+                    continue;
+
+                }
+            }
+
+            for (int i = 0; i < n5; i++) {
+                System.out.print("5");
+            }
+            for (int i = 0; i < n3; i++) {
+                System.out.print("3");
+            }
+            System.out.println("");
 
         }
     }

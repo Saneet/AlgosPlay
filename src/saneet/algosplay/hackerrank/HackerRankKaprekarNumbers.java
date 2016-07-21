@@ -1,3 +1,5 @@
+package saneet.algosplay.hackerrank;
+
 import java.util.ArrayList;
 import java.util.List;
 
