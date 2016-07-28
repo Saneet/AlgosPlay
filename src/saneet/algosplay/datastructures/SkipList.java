@@ -6,26 +6,30 @@ import java.util.Random;
 /**
  * Sorted Skip List implementation for quick search and add, delete operations.
  */
-public class SkipList<T extends Comparable> {
+public class SkipList<T extends Comparable<T>> {
     private int nodeCount = 0;
-    private LinkedListNode startNode = null;
+    private SkipNode<T> startNode = null;
     private int levelCount;
+    int[] nodesAtLevels;
 
     //initilize the first nodes for all levels
     private void initialize() {
-        SkipNode node = new SkipNode<T>(this, null, null);
+        SkipNode<T> node = new SkipNode<T>(this, null, null);
         startNode = node;
         for (int i = 0; i < levelCount - 1; i++) {
-            SkipNode temp = new SkipNode<>(this, null, null);
+            SkipNode<T> temp = new SkipNode<T>(this, null, null);
             node.down = temp;
             node = temp;
         }
-        LinkedListNode temp = new LinkedListNode(this, null, null);
+        LinkedListNode<T> temp = new LinkedListNode<T>(this, null, null);
         node.down = temp;
+
+        nodesAtLevels = new int[levelCount];
     }
 
     //Initialize levels according to expected elements
     public SkipList(int expectedElementCount) {
+        //Initialize levels to what the height of an equivalent binary tree would be
         levelCount = (int) (Math.log(expectedElementCount) / Math.log(2)) + 1;
         initialize();
     }
@@ -36,8 +40,10 @@ public class SkipList<T extends Comparable> {
     }
 
     //Previous and next is managed by the list class so that nodes and their lists always have to go together
-    public LinkedListNode getPreviousNode(LinkedListNode node) throws IncorrectListException {
-        if (node.list() == this) {
+    public LinkedListNode<T> getPreviousNode(LinkedListNode<T> node) throws IncorrectListException {
+        if (node == null) {
+            return null;
+        } else if (node.list() == this) {
             return node.prev;
         } else {
             throw new IncorrectListException();
@@ -45,8 +51,10 @@ public class SkipList<T extends Comparable> {
     }
 
     //Previous and next is managed by the list class so that nodes and their lists always have to go together
-    public LinkedListNode getNextNode(LinkedListNode node) throws IncorrectListException {
-        if (node.list() == this) {
+    public LinkedListNode<T> getNextNode(LinkedListNode<T> node) throws IncorrectListException {
+        if (node == null) {
+            return null;
+        } else if (node.list() == this) {
             return node.next;
         } else {
             throw new IncorrectListException();
@@ -54,9 +62,9 @@ public class SkipList<T extends Comparable> {
     }
 
     //Node search
-    public LinkedListNode findNode(T value) {
+    public LinkedListNode<T> findNode(T value) {
 
-        LinkedListNode node = findNearestNode(value, null);
+        LinkedListNode<T> node = findNearestNode(value, null);
         if (node.compareTo(value) != 0) {
             node = null;
         }
@@ -65,7 +73,7 @@ public class SkipList<T extends Comparable> {
     }
 
     //Adds a new node to the sorted list
-    public LinkedListNode addNode(T value) {
+    public LinkedListNode<T> addNode(T value) {
         //While adding node we need to decide the number of levels.
         //The probability of next level existing over previous level can 1/2. Ideal is 1/3. Theoretically ideal is 1/e.
         //We can achieve this with the bits trick. With 1 bit you can store 1 number and with the 2nd bit you can store
@@ -81,31 +89,92 @@ public class SkipList<T extends Comparable> {
 
         int levelsToPopulate = levelCount - bits.bitLength();
 
-        LinkedListNode[] nodesList = new LinkedListNode[levelCount];
+        LinkedListNode<T>[] nodesList = new LinkedListNode[levelCount];
         findNearestNode(value, nodesList);
 
         //Add the actual node
-        LinkedListNode<T> node = new LinkedListNode<>(this, nodesList[levelCount - 1], value);
+        LinkedListNode<T> prevNode = nodesList[levelCount - 1];
+        LinkedListNode<T> node = new LinkedListNode<T>(this, prevNode, value);
 
-        //Add all the skip nodes
-        for (int i = nodesList.length - 2; i >= (levelCount - levelsToPopulate - 1); i--) {
-            node = new LinkedListNode<>(this, nodesList[i], value);
+        //If nodes with the same value already exist in the list then do not add skipnodes
+        if (prevNode.compareTo(node) != 0) {
+            //Add all the skip nodes
+            LinkedListNode<T> prev = node;
+            SkipNode<T> skipNode;
+            for (int i = nodesList.length - 2; i >= (levelCount - levelsToPopulate - 1) && i >= 0; i--) {
+                skipNode = new SkipNode<T>(this, nodesList[i], value);
+                skipNode.down = prev;
+                prev = skipNode;
+                nodesAtLevels[i]++;
+            }
         }
 
+        nodesAtLevels[levelCount - 1]++;
         nodeCount++;
 
         return node;
     }
 
-    //Goes through the structure and finds the previous node or the correct node on each level
-    public LinkedListNode findNearestNode(T value, LinkedListNode[] nodePath) {
+    private void deleteNode(T value, LinkedListNode<T> node) throws IncorrectListException {
+        if (value == null) {
+            return;
+        } else if (node != null) {
+            if (node.list() != this) {
+                throw new IncorrectListException();
+            }
+        }
 
-        LinkedListNode node = startNode;
+        //Our list can have duplicate elements. If an element that occurs multiple times has skip nodes then they will
+        //point to the first element. We have to make sure that while deleting we point the skip nodes to the next element.
+
+        //Get node path
+        LinkedListNode<T>[] nodePath = new LinkedListNode[levelCount];
+        findNearestNode(value, nodePath);
+
+        LinkedListNode<T> foundNode = nodePath[levelCount - 1];
+        LinkedListNode<T> nextNode = node.next;
+        SkipNode<T> lastSkipNode = (SkipNode<T>) nodePath[levelCount - 2];
+
+        //If the node being deleted is a skip node and if the next node also has the same value then point the skip list
+        //to the next node otherwise delete the skip nodes.
+        if (nextNode.compareTo(value) == 0 && lastSkipNode != null && lastSkipNode.compareTo(value) == 0) {
+            lastSkipNode.down = nextNode;
+            if (node != null && foundNode == node) {
+                node.remove();
+            } else {
+                foundNode.remove();
+            }
+        } else if (lastSkipNode != null && lastSkipNode.compareTo(value) == 0) {
+            for (int i = nodePath.length - 1; i >= 0; i--) {
+                if (nodePath[i] != null) {
+                    nodePath[i].remove();
+                } else {
+                    break;
+                }
+            }
+        } else {
+            node.remove();
+        }
+
+
+    }
+
+    public LinkedListNode<T> getFirstNode() {
+        LinkedListNode<T> node = startNode;
+        while (node instanceof SkipNode)
+            node = ((SkipNode) node).down;
+        return node;
+    }
+
+    //Goes through the structure and finds the previous node or the correct node on each level
+    private LinkedListNode<T> findNearestNode(T value, LinkedListNode<T>[] nodePath) {
+
+        LinkedListNode<T> node = startNode;
         int i = 0;
         while (node instanceof SkipNode) {
             node = ((SkipNode) node).down;
 
-            LinkedListNode prev = node;
+            LinkedListNode<T> prev = node;
             while (true) {
                 int result = node.compareTo(value);
 
@@ -134,9 +203,9 @@ public class SkipList<T extends Comparable> {
     /*
       LinkedListNode class
      */
-    public class LinkedListNode<T extends Comparable> implements Comparable<LinkedListNode> {
-        private LinkedListNode prev;
-        private LinkedListNode next;
+    public class LinkedListNode<T extends Comparable<T>> implements Comparable<LinkedListNode<T>> {
+        private LinkedListNode<T> prev;
+        private LinkedListNode<T> next;
         private final T value;
         private final SkipList list;
 
@@ -148,7 +217,7 @@ public class SkipList<T extends Comparable> {
             return list == this.list;
         }
 
-        private LinkedListNode(SkipList list, LinkedListNode prev, T value) {
+        private LinkedListNode(SkipList list, LinkedListNode<T> prev, T value) {
             this.list = list;
 
             this.value = value;
@@ -157,7 +226,7 @@ public class SkipList<T extends Comparable> {
             }
 
             this.prev = prev;
-            LinkedListNode temp = prev.next;
+            LinkedListNode<T> temp = prev.next;
             prev.next = this;
             this.next = temp;
             if (temp != null) {
@@ -170,7 +239,7 @@ public class SkipList<T extends Comparable> {
 
         }
 
-        private void remove(){
+        private void remove() {
             if (prev != null) {
                 prev.next = next;
             }
@@ -182,12 +251,13 @@ public class SkipList<T extends Comparable> {
 
 
         @Override
-        public int compareTo(LinkedListNode o) {
+        public int compareTo(LinkedListNode<T> o) {
             if (value == null) {
                 return -1;
-            } else if (o.getValue() == null) {
+            } else if (o == null || o.getValue() == null) {
                 return 1;
             } else {
+                o.getValue();
                 return value.compareTo(o.getValue());
             }
         }
@@ -207,13 +277,15 @@ public class SkipList<T extends Comparable> {
     /*
       SkipNode class
      */
-    private class SkipNode<T extends Comparable> extends LinkedListNode<T> {
-        private LinkedListNode down;
-        private SkipNode(SkipList list, LinkedListNode prev, T value) {
+    private class SkipNode<T extends Comparable<T>> extends LinkedListNode<T> {
+        private LinkedListNode<T> down;
+
+        private SkipNode(SkipList list, LinkedListNode<T> prev, T value) {
             super(list, prev, value);
         }
     }
 
 }
 
-class IncorrectListException extends Exception{};
+class IncorrectListException extends Exception {
+}
