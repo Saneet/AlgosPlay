@@ -131,7 +131,6 @@ public class SkipList<T extends Comparable<T>> {
         LinkedListNode<T> foundNode = nodePath[levelCount - 1];
         //found node could be the nearest node and not the actual node
         if (foundNode == null || foundNode.compareTo(value) != 0) {
-            System.out.println("node not found");
             return;
         }
 
@@ -144,10 +143,11 @@ public class SkipList<T extends Comparable<T>> {
         if (node != null) {
             if (foundNode != node) {
                 foundNode = node;
+                hasSkipNode = false;
             } else if (hasSkipNode && nextNode != null && nextNode.compareTo(foundNode) == 0) {
                 lastSkipNode.down = nextNode;
+                hasSkipNode = false;
             }
-            hasSkipNode = false;
         } else if (hasSkipNode && nextNode != null && nextNode.compareTo(foundNode) == 0) {
             foundNode = nextNode;
             hasSkipNode = false;

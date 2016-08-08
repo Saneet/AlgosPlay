@@ -2,6 +2,7 @@ package saneet.algosplay.datastructures;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -104,22 +105,30 @@ public class TestSkipList{
         int nodeNum = 4;
         SkipList<DeleteTestNodeData> skipList = new SkipList<DeleteTestNodeData>(chars*nodeNum);
         DeleteTestNodeData[] items = new DeleteTestNodeData[chars * nodeNum];
+        SkipList.LinkedListNode[] nodes = new SkipList.LinkedListNode[chars * nodeNum];
 
         int id = 0;
         for (int i = 'a'; i <= 'a' + chars - 1; i++) {
             for (int j = 0; j < nodeNum; j++) {
                 DeleteTestNodeData item = new DeleteTestNodeData("" + (char) i, id);
-                skipList.addNode(item);
-                items[id++] = item;
+                SkipList.LinkedListNode node = skipList.addNode(item);
+                items[id] = item;
+                nodes[id++] = node;
             }
         }
 
         skipList.printAll(' ');
         System.out.println("");
 
+
         for (int i = 0; i < items.length; i++) {
             System.out.println("Deleting: " + items[i]);
-            skipList.deleteNode(items[i]);
+            //skipList.deleteNode(items[i]);
+            try {
+                skipList.deleteNode(nodes[i]);
+            } catch (IncorrectListException e) {
+                e.printStackTrace();
+            }
             skipList.printAll(' ');
             System.out.println("");
 
