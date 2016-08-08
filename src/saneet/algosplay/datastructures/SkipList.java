@@ -1,6 +1,7 @@
 package saneet.algosplay.datastructures;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -115,13 +116,9 @@ public class SkipList<T extends Comparable<T>> {
         return node;
     }
 
-    private void deleteNode(T value, LinkedListNode<T> node) throws IncorrectListException {
+    private void deleteNode(T value, LinkedListNode<T> node) {
         if (value == null) {
             return;
-        } else if (node != null) {
-            if (node.list() != this) {
-                throw new IncorrectListException();
-            }
         }
 
         //Our list can have duplicate elements. If an element that occurs multiple times has skip nodes then they will
@@ -132,31 +129,56 @@ public class SkipList<T extends Comparable<T>> {
         findNearestNode(value, nodePath);
 
         LinkedListNode<T> foundNode = nodePath[levelCount - 1];
-        LinkedListNode<T> nextNode = node.next;
+        //found node could be the nearest node and not the actual node
+        if (foundNode == null || foundNode.compareTo(value) != 0) {
+            System.out.println("node not found");
+            return;
+        }
+
+        LinkedListNode<T> nextNode = foundNode.next;
         SkipNode<T> lastSkipNode = (SkipNode<T>) nodePath[levelCount - 2];
+        boolean hasSkipNode = lastSkipNode != null && lastSkipNode.compareTo(value) == 0;
 
         //If the node being deleted is a skip node and if the next node also has the same value then point the skip list
         //to the next node otherwise delete the skip nodes.
-        if (nextNode.compareTo(value) == 0 && lastSkipNode != null && lastSkipNode.compareTo(value) == 0) {
-            lastSkipNode.down = nextNode;
-            if (node != null && foundNode == node) {
-                node.remove();
-            } else {
-                foundNode.remove();
+        if (node != null) {
+            if (foundNode != node) {
+                foundNode = node;
+            } else if (hasSkipNode && nextNode != null && nextNode.compareTo(foundNode) == 0) {
+                lastSkipNode.down = nextNode;
             }
-        } else if (lastSkipNode != null && lastSkipNode.compareTo(value) == 0) {
+            hasSkipNode = false;
+        } else if (hasSkipNode && nextNode != null && nextNode.compareTo(foundNode) == 0) {
+            foundNode = nextNode;
+            hasSkipNode = false;
+        }
+
+        foundNode.remove();
+        if (hasSkipNode) {
             for (int i = nodePath.length - 1; i >= 0; i--) {
-                if (nodePath[i] != null) {
+                if (nodePath[i] != null && nodePath[i].value != null) {
                     nodePath[i].remove();
                 } else {
                     break;
                 }
             }
-        } else {
-            node.remove();
         }
 
+        nodeCount--;
 
+
+    }
+
+    public void deleteNode(LinkedListNode<T> node) throws IncorrectListException {
+        if (node.list() != this) {
+            throw new IncorrectListException();
+        }
+
+        deleteNode(node.value, node);
+    }
+
+    public void deleteNode(T value) {
+        deleteNode(value, null);
     }
 
     public LinkedListNode<T> getFirstNode() {
@@ -200,6 +222,40 @@ public class SkipList<T extends Comparable<T>> {
         return node;
     }
 
+    public T[] toArray() {
+        T[] result = (T[]) new Object[nodeCount];
+        LinkedListNode<T> node = getFirstNode();
+
+        int index = 0;
+        try {
+            node = getNextNode(node);
+            while (node != null) {
+                result[index++] = node.value;
+                node = getNextNode(node);
+            }
+        } catch (IncorrectListException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public void printAll(char delimiter) {
+        try {
+
+            LinkedListNode<T> node = getFirstNode();
+            node = getNextNode(node);
+            while (node != null) {
+                System.out.print(node);
+                System.out.print(delimiter);
+                node = getNextNode(node);
+            }
+        } catch (IncorrectListException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /*
       LinkedListNode class
      */
@@ -207,6 +263,7 @@ public class SkipList<T extends Comparable<T>> {
         private LinkedListNode<T> prev;
         private LinkedListNode<T> next;
         private final T value;
+
         private final SkipList list;
 
         public T getValue() {
@@ -270,6 +327,11 @@ public class SkipList<T extends Comparable<T>> {
             } else {
                 return this.value.compareTo(value);
             }
+        }
+
+        @Override
+        public String toString() {
+            return value.toString();
         }
 
     }

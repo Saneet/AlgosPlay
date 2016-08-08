@@ -1,6 +1,7 @@
 package saneet.algosplay.datastructures;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -72,22 +73,58 @@ public class TestSkipList{
             e.printStackTrace();
         }
 
-
-        //Delete nodes
-        startTime = System.nanoTime();
-        for (int i = 0; i < array.length; i++) {
-            SkipList<Integer>.LinkedListNode<Integer> node = skipList.findNode(array[i]);
-            if (!(node != null && node.getValue() == array[i])) {
-                incorrectFetches++;
-            }
-        }
-
-        endTime = System.nanoTime();
-        duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
-        System.out.println("Fetches Total Time: " + duration);
-        System.out.println("Incorrect Fetches: " + incorrectFetches);
+        deleteTest();
 
     }
 
+    public static void deleteTest() {
+
+        class DeleteTestNodeData implements Comparable<DeleteTestNodeData> {
+            private String value;
+            private int id;
+
+            public DeleteTestNodeData(String value, int id) {
+                this.value = value;
+                this.id = id;
+            }
+
+            @Override
+            public int compareTo(DeleteTestNodeData o) {
+                return value.compareTo(o.value);
+            }
+
+            @Override
+            public String toString() {
+                return value + '/' + id;
+            }
+        }
+
+
+        int chars = 26;
+        int nodeNum = 4;
+        SkipList<DeleteTestNodeData> skipList = new SkipList<DeleteTestNodeData>(chars*nodeNum);
+        DeleteTestNodeData[] items = new DeleteTestNodeData[chars * nodeNum];
+
+        int id = 0;
+        for (int i = 'a'; i <= 'a' + chars - 1; i++) {
+            for (int j = 0; j < nodeNum; j++) {
+                DeleteTestNodeData item = new DeleteTestNodeData("" + (char) i, id);
+                skipList.addNode(item);
+                items[id++] = item;
+            }
+        }
+
+        skipList.printAll(' ');
+        System.out.println("");
+
+        for (int i = 0; i < items.length; i++) {
+            System.out.println("Deleting: " + items[i]);
+            skipList.deleteNode(items[i]);
+            skipList.printAll(' ');
+            System.out.println("");
+
+        }
+
+    }
 
 }
