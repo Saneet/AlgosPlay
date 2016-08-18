@@ -13,7 +13,7 @@ public class SkipList<T extends Comparable<T>> {
     private int levelCount;
     int[] nodesAtLevels;
 
-    //initilize the first nodes for all levels
+    //initialize the first nodes for all levels
     private void initialize() {
         SkipNode<T> node = new SkipNode<T>(this, null, null);
         startNode = node;
@@ -41,25 +41,19 @@ public class SkipList<T extends Comparable<T>> {
     }
 
     //Previous and next is managed by the list class so that nodes and their lists always have to go together
-    public LinkedListNode<T> getPreviousNode(LinkedListNode<T> node) throws IncorrectListException {
-        if (node == null) {
+    public LinkedListNode<T> getPreviousNode(LinkedListNode<T> node) {
+        if (node == null || node.list() != this) {
             return null;
-        } else if (node.list() == this) {
+        } else
             return node.prev;
-        } else {
-            throw new IncorrectListException();
-        }
     }
 
     //Previous and next is managed by the list class so that nodes and their lists always have to go together
-    public LinkedListNode<T> getNextNode(LinkedListNode<T> node) throws IncorrectListException {
-        if (node == null) {
+    public LinkedListNode<T> getNextNode(LinkedListNode<T> node) {
+        if (node == null || node.list() != this) {
             return null;
-        } else if (node.list() == this) {
+        } else
             return node.next;
-        } else {
-            throw new IncorrectListException();
-        }
     }
 
     //Node search
@@ -169,9 +163,9 @@ public class SkipList<T extends Comparable<T>> {
 
     }
 
-    public void deleteNode(LinkedListNode<T> node) throws IncorrectListException {
+    public void deleteNode(LinkedListNode<T> node) {
         if (node.list() != this) {
-            throw new IncorrectListException();
+            return;
         }
 
         deleteNode(node.value, node);
@@ -227,31 +221,23 @@ public class SkipList<T extends Comparable<T>> {
         LinkedListNode<T> node = getFirstNode();
 
         int index = 0;
-        try {
+        node = getNextNode(node);
+        while (node != null) {
+            result[index++] = node.value;
             node = getNextNode(node);
-            while (node != null) {
-                result[index++] = node.value;
-                node = getNextNode(node);
-            }
-        } catch (IncorrectListException e) {
-            e.printStackTrace();
         }
 
         return result;
     }
 
     public void printAll(char delimiter) {
-        try {
 
-            LinkedListNode<T> node = getFirstNode();
+        LinkedListNode<T> node = getFirstNode();
+        node = getNextNode(node);
+        while (node != null) {
+            System.out.print(node);
+            System.out.print(delimiter);
             node = getNextNode(node);
-            while (node != null) {
-                System.out.print(node);
-                System.out.print(delimiter);
-                node = getNextNode(node);
-            }
-        } catch (IncorrectListException e) {
-            e.printStackTrace();
         }
 
     }
@@ -278,11 +264,12 @@ public class SkipList<T extends Comparable<T>> {
             this.list = list;
 
             this.value = value;
+
+            this.prev = prev;
             if (prev == null) {
                 return;
             }
 
-            this.prev = prev;
             LinkedListNode<T> temp = prev.next;
             prev.next = this;
             this.next = temp;
@@ -331,7 +318,10 @@ public class SkipList<T extends Comparable<T>> {
 
         @Override
         public String toString() {
-            return value.toString();
+            if (value != null) {
+                return value.toString();
+            }
+            else return super.toString();
         }
 
     }
@@ -345,9 +335,12 @@ public class SkipList<T extends Comparable<T>> {
         private SkipNode(SkipList list, LinkedListNode<T> prev, T value) {
             super(list, prev, value);
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
-}
 
-class IncorrectListException extends Exception {
 }
