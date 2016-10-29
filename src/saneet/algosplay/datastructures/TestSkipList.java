@@ -13,10 +13,10 @@ public class TestSkipList {
         //Testing skip list
 
         //Range of numbers to use.
-        int end = 23942;
+        int end = 70000;
         int start = end / 2;
         //Create array of the size needed.
-        int[] array = new int[10000];
+        int[] array = new int[70000];
         Random r = new Random(124173423);
 
         for (int i = 0; i < array.length; i++) {
@@ -24,7 +24,7 @@ public class TestSkipList {
         }
 
         long startTime = System.nanoTime();
-        SkipList<Integer> skipList = new SkipList<Integer>(array.length);
+        SkipList<Integer> skipList = new SkipList<Integer>((int) (array.length / 1));
         for (int i = 0; i < array.length; i++) {
             skipList.addNode(array[i]);
         }
@@ -39,8 +39,14 @@ public class TestSkipList {
 
         startTime = System.nanoTime();
         int incorrectFetches = 0;
+        int averageIterationCount = 0;
+        int maxIterations = 0;
         for (int i = 0; i < array.length; i++) {
             SkipList<Integer>.LinkedListNode<Integer> node = skipList.findNode(array[i]);
+            averageIterationCount += skipList.traverseCount;
+            if (skipList.traverseCount > maxIterations) {
+                maxIterations = skipList.traverseCount;
+            }
             if (!(node != null && node.getValue() == array[i])) {
                 incorrectFetches++;
             }
@@ -50,6 +56,8 @@ public class TestSkipList {
         duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
         System.out.println("Fetches Total Time: " + duration);
         System.out.println("Incorrect Fetches: " + incorrectFetches);
+        System.out.println("Average Iterations: " + (int) (averageIterationCount / array.length));
+        System.out.println("Max Iterations: " + maxIterations);
 
         startTime = System.nanoTime();
         int incorrectSorting = 0;

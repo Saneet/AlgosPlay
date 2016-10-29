@@ -1,7 +1,6 @@
 package saneet.algosplay.datastructures;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -12,6 +11,7 @@ public class SkipList<T extends Comparable<T>> {
     private SkipNode<T> startNode = null;
     private int levelCount;
     int[] nodesAtLevels;
+    int traverseCount = 0;
 
     //initialize the first nodes for all levels
     private void initialize() {
@@ -89,10 +89,21 @@ public class SkipList<T extends Comparable<T>> {
 
         //Add the actual node
         LinkedListNode<T> prevNode = nodesList[levelCount - 1];
-        LinkedListNode<T> node = new LinkedListNode<T>(this, prevNode, value);
 
-        //If nodes with the same value already exist in the list then do not add skipnodes
-        if (prevNode.compareTo(node) != 0) {
+        LinkedListNode<T> nodeAbove = null;
+        if (levelCount > 1) {
+            nodeAbove = nodesList[levelCount - 2];
+        }
+
+        LinkedListNode<T> node;
+        if (prevNode.compareTo(value) == 0) {
+            node = new LinkedListNode<T>(this, prevNode.prev, value);
+        } else {
+            node = new LinkedListNode<T>(this, prevNode, value);
+        }
+
+        //If nodes with the same value already exist in the list and it has a skip node then do not add a skip node
+        if (prevNode.compareTo(node) != 0 || nodeAbove == null || prevNode.compareTo(nodeAbove) != 0) {
             //Add all the skip nodes
             LinkedListNode<T> prev = node;
             SkipNode<T> skipNode;
@@ -129,7 +140,10 @@ public class SkipList<T extends Comparable<T>> {
         }
 
         LinkedListNode<T> nextNode = foundNode.next;
-        SkipNode<T> lastSkipNode = (SkipNode<T>) nodePath[levelCount - 2];
+        SkipNode<T> lastSkipNode = null;
+        if (levelCount > 1) {
+            lastSkipNode = (SkipNode<T>) nodePath[levelCount - 2];
+        }
         boolean hasSkipNode = lastSkipNode != null && lastSkipNode.compareTo(value) == 0;
 
         //If the node being deleted is a skip node and if the next node also has the same value then point the skip list
@@ -185,6 +199,7 @@ public class SkipList<T extends Comparable<T>> {
     //Goes through the structure and finds the previous node or the correct node on each level
     private LinkedListNode<T> findNearestNode(T value, LinkedListNode<T>[] nodePath) {
 
+        traverseCount = 0;
         LinkedListNode<T> node = startNode;
         int i = 0;
         while (node instanceof SkipNode) {
@@ -194,6 +209,7 @@ public class SkipList<T extends Comparable<T>> {
             while (true) {
                 int result = node.compareTo(value);
 
+                traverseCount++;
                 if (result == 0) {
                     break;
                 } else if (result > 0) {
@@ -301,7 +317,6 @@ public class SkipList<T extends Comparable<T>> {
             } else if (o == null || o.getValue() == null) {
                 return 1;
             } else {
-                o.getValue();
                 return value.compareTo(o.getValue());
             }
         }
