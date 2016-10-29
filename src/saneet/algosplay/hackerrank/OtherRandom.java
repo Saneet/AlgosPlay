@@ -3,10 +3,7 @@ package saneet.algosplay.hackerrank;
 import saneet.algosplay.utils.FastScanner;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Hacker Rank problem solutions
@@ -232,5 +229,87 @@ public class OtherRandom {
         }
     }
 
+    public static int minimumDistances(int[] arr) {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int minDist = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            Integer index = map.getOrDefault(arr[i], -1);
+            if (index > -1) {
+                int newVal = (i - index);
+                if (newVal < minDist) {
+                    minDist = newVal;
+                }
+            }
+            map.put(arr[i], i);
+        }
+
+        if (minDist == Integer.MAX_VALUE) {
+            minDist = -1;
+        }
+
+        return minDist;
+    }
+
+    public static int findDigits(int N) {
+        int num = N;
+        int count = 0;
+        while (num != 0) {
+            int i = num % 10;
+            if (i > 0 && N % i == 0) {
+                count++;
+            }
+            num = num / 10;
+        }
+        return count;
+    }
+
+    public static int fairRations() {
+        Scanner in = new Scanner(System.in);
+        int N = in.nextInt();
+        int count = 0;
+
+        if (N <= 0) {
+            return 0;
+        }
+
+        int prev = in.nextInt();
+        for(int B_i=1; B_i < N; B_i++){
+            int current = in.nextInt();
+            if (prev % 2 != 0) {
+                current++;
+                count += 2; //increment both numbers
+            }
+            prev = current;
+        }
+
+        if (prev % 2 != 0) {
+            return -1;
+        } else {
+            return count;
+        }
+    }
+
+    public static int sherlockAndSquares(long start, long end) {
+        int startRoot = (int) Math.ceil(Math.sqrt(start));
+        long squareVal = startRoot * startRoot;
+
+        int count = 0;
+        while (squareVal <= end) {
+            count++;
+            startRoot++;
+            squareVal = startRoot * startRoot;
+        }
+
+        return count;
+    }
+
+    public static int utopianTree(int cycles) {
+        if (cycles % 2 != 0) {
+            return (int) Math.pow(2, ((cycles + 1) / 2 + 1)) - 2;
+        } else {
+            return (int) Math.pow(2, ((cycles) / 2 + 1)) - 1;
+        }
+    }
 
 }

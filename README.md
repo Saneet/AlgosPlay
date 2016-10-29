@@ -22,10 +22,13 @@ Code: https://github.com/Saneet/AlgosPlay/blob/master/src/saneet/algosplay/utils
 ## HackerRank Challenge solutions
 
 ### 1. Almost Equal - Difficulty - Expert
-Implmented using MO's algorithm. Used sorted skip list for managing changes to the current segment.<br />
-Sorting the segment allows for range based checking which decreases complexity even more.<br />
-Alternately in place of sorted segments, memo can be used to store the matches for elements which makes removing easy.<br />
-Total running time for a large test case = 625 milliseconds. (If data is read through saneet.algosplay.utils.FastScanner.java) <br />
+Implemented using two pointer algorithm and MO's sorting.<br />
+Used sorted grouped skip list for managing changes to the current segment of heights.<br />
+Sorting the segment allows for range based checking which decreases complexity even more. <br />
+Grouping same height values allows repeating heights to be processed together. <br />
+Performance:<br />
+Total running time for test case #10 (100000 heights with many repeating and 100000 queries) = 2.5 seconds.<br />
+(If data is read through saneet.algosplay.utils.FastScanner.java) <br />
 Problem: https://www.hackerrank.com/challenges/almost-equal-advanced<br />
 Solution: https://github.com/Saneet/AlgosPlay/blob/master/src/saneet/algosplay/hackerrank/AlmostEqual.java
 
