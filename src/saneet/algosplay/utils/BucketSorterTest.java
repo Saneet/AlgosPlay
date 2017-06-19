@@ -6,14 +6,14 @@ public class BucketSorterTest {
     public static void testBucketSorter(){
         //Bucket Sorter Test
         Random r = new Random((long) 1.04);
-        int size = 12312;
-        int largeSize = 921231134;
+        int size = 12312034;
+        int largeSize = 12312034;
 
         long startTime = System.nanoTime();
-        saneet.algosplay.utils.BucketSorter sorter = new saneet.algosplay.utils.BucketSorter(size);
+        BucketSorter sorter = new BucketSorter(size);
         for (int i = 0; i < size; i++) {
             int num = r.nextInt(largeSize);
-            double index = ((double) num) / (largeSize) * size;
+            double index = ((double) num) / largeSize * size;
 
             //int num = largeSize - size + i - 10;
             sorter.putAtIndex((int) index, num);

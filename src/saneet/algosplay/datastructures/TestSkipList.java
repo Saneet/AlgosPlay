@@ -24,7 +24,7 @@ public class TestSkipList {
         }
 
         long startTime = System.nanoTime();
-        SkipList<Integer> skipList = new SkipList<Integer>((int) (array.length / 1));
+        SkipList<Integer> skipList = new SkipList<>((array.length / 1));
         for (int i = 0; i < array.length; i++) {
             skipList.addNode(array[i]);
         }

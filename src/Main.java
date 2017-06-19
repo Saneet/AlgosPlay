@@ -1,11 +1,9 @@
-import saneet.algosplay.utils.FastScanner;
-
-import java.io.IOException;
+import saneet.algosplay.datastructures.TestSkipList;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
+        TestSkipList.testSkipList();
     }
 }
 
