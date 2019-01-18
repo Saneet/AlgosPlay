@@ -312,4 +312,9 @@ public class OtherRandom {
         }
     }
 
+    public static String minMaxSum(int[] num) {
+        Arrays.sort(num);
+        long sum = (long) num[1] + num[2] + num[3];
+        return Long.toString((long) num[0] + sum) + " " + Long.toString((long) num[4] + sum);
+    }
 }
